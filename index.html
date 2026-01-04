@@ -1,1 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buoni Regalo Digitali - Giulia Montanari</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
+        
+        const Gift = ({className}) => <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>;
+        const Download = ({className}) => <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>;
+        const Share2 = ({className}) => <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>;
+        const Sparkles = ({className}) => <svg className={className} fill="currentColor" viewBox="0 0 24 24"><path d="M12 0L14 8L12 16L10 8L12 0Z M0 12L8 10L16 12L8 14L0 12Z"/></svg>;
+        const Heart = ({className}) => <svg className={className} fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>;
+        const Star = ({className}) => <svg className={className} fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>;
+        const Crown = ({className}) => <svg className={className} fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>;
 
+        const LogoGM = ({size=80}) => (
+            <svg width={size} height={size} viewBox="0 0 200 200" className="drop-shadow-lg">
+                <defs><linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#5f9ea0"/><stop offset="100%" stopColor="#20b2aa"/></linearGradient></defs>
+                <circle cx="100" cy="100" r="95" fill="url(#bgGradient)"/>
+                <ellipse cx="45" cy="60" rx="8" ry="15" fill="#9acd32" transform="rotate(-30 45 60)"/><ellipse cx="35" cy="80" rx="7" ry="13" fill="#7cb342" transform="rotate(-20 35 80)"/><ellipse cx="30" cy="100" rx="8" ry="14" fill="#8fbc8f" transform="rotate(-10 30 100)"/><ellipse cx="35" cy="120" rx="7" ry="12" fill="#9370db" transform="rotate(10 35 120)"/><ellipse cx="45" cy="140" rx="8" ry="13" fill="#ba68c8" transform="rotate(20 45 140)"/>
+                <ellipse cx="155" cy="60" rx="8" ry="15" fill="#9acd32" transform="rotate(30 155 60)"/><ellipse cx="165" cy="80" rx="7" ry="13" fill="#7cb342" transform="rotate(20 165 80)"/><ellipse cx="170" cy="100" rx="8" ry="14" fill="#ffd700" transform="rotate(10 170 100)"/><ellipse cx="165" cy="120" rx="7" ry="12" fill="#9370db" transform="rotate(-10 165 120)"/><ellipse cx="155" cy="140" rx="8" ry="13" fill="#ba68c8" transform="rotate(-20 155 140)"/>
+                <ellipse cx="80" cy="35" rx="10" ry="14" fill="#9acd32" transform="rotate(-45 80 35)"/><ellipse cx="100" cy="25" rx="9" ry="13" fill="#ffd700"/><ellipse cx="120" cy="35" rx="10" ry="14" fill="#9acd32" transform="rotate(45 120 35)"/>
+                <circle cx="100" cy="75" r="12" fill="#f5deb3"/><ellipse cx="100" cy="95" rx="18" ry="22" fill="#9370db"/>
+                <path d="M 82 95 Q 70 105 65 120" stroke="#7cb342" strokeWidth="6" fill="none" strokeLinecap="round"/><path d="M 118 95 Q 130 105 135 120" stroke="#7cb342" strokeWidth="6" fill="none" strokeLinecap="round"/>
+                <ellipse cx="85" cy="115" rx="15" ry="8" fill="#ba68c8" transform="rotate(-20 85 115)"/><ellipse cx="115" cy="115" rx="15" ry="8" fill="#ba68c8" transform="rotate(20 115 115)"/>
+                <circle cx="100" cy="95" r="5" fill="#ffd700"/><circle cx="100" cy="95" r="3" fill="white" opacity="0.8"/>
+                <ellipse cx="90" cy="145" rx="6" ry="10" fill="#7cb342"/><ellipse cx="100" cy="142" rx="7" ry="11" fill="#9acd32"/><ellipse cx="110" cy="145" rx="6" ry="10" fill="#7cb342"/>
+                <circle cx="95" cy="152" r="3" fill="#ffd700"/><circle cx="100" cy="150" r="3" fill="#ffd700"/><circle cx="105" cy="152" r="3" fill="#ffd700"/>
+                <path d="M 75 155 Q 80 150 85 148" stroke="#f5deb3" strokeWidth="5" fill="none" strokeLinecap="round"/><ellipse cx="72" cy="158" rx="8" ry="6" fill="#f5deb3" transform="rotate(-30 72 158)"/>
+                <path d="M 125 155 Q 120 150 115 148" stroke="#f5deb3" strokeWidth="5" fill="none" strokeLinecap="round"/><ellipse cx="128" cy="158" rx="8" ry="6" fill="#f5deb3" transform="rotate(30 128 158)"/>
+                <circle cx="100" cy="68" r="2" fill="#9370db"/>
+            </svg>
+        );
+
+        const App = () => {
+            const [formData, setFormData] = useState({recipient:'',from:'',service:'',theme:'modern'});
+            const [showPreview, setShowPreview] = useState(false);
+            const [voucherCode, setVoucherCode] = useState('');
+
+            useEffect(() => {
+                setVoucherCode('VCH-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+            }, []);
+
+            const themes = {
+                modern: {name:'Moderno', gradient:'from-purple-600 via-pink-600 to-red-600', icon:Sparkles, pattern:'opacity-10'},
+                elegant: {name:'Elegante', gradient:'from-slate-800 via-slate-700 to-slate-900', icon:Crown, pattern:'opacity-20'},
+                romantic: {name:'Romantico', gradient:'from-rose-400 via-pink-500 to-red-500', icon:Heart, pattern:'opacity-15'},
+                celebration: {name:'Celebrazione', gradient:'from-amber-400 via-orange-500 to-yellow-500', icon:Star, pattern:'opacity-20'},
+                forest: {name:'Foresta', gradient:'from-green-700 via-emerald-600 to-teal-700', icon:Sparkles, pattern:'opacity-15'},
+                ocean: {name:'Oceano', gradient:'from-blue-500 via-cyan-500 to-teal-500', icon:Sparkles, pattern:'opacity-20'},
+                sunset: {name:'Tramonto', gradient:'from-orange-500 via-pink-500 to-purple-600', icon:Star, pattern:'opacity-15'},
+                earth: {name:'Terra', gradient:'from-amber-700 via-yellow-700 to-green-800', icon:Heart, pattern:'opacity-20'},
+                lavender: {name:'Lavanda', gradient:'from-purple-400 via-violet-400 to-indigo-500', icon:Sparkles, pattern:'opacity-15'},
+                spring: {name:'Primavera', gradient:'from-lime-400 via-green-400 to-emerald-500', icon:Star, pattern:'opacity-18'}
+            };
+
+            const generateQR = (text) => {
+                const canvas = document.createElement('canvas');
+                const size = 200;
+                canvas.width = size; canvas.height = size;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = 'white'; ctx.fillRect(0,0,size,size);
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0,0,size,10); ctx.fillRect(0,0,10,size);
+                ctx.fillRect(size-10,0,10,size); ctx.fillRect(0,size-10,size,10);
+                const moduleSize = 8;
+                for(let i=0; i<size/moduleSize; i++){
+                    for(let j=0; j<size/moduleSize; j++){
+                        if((i+j+text.length)%3===0) ctx.fillRect(i*moduleSize, j*moduleSize, moduleSize-1, moduleSize-1);
+                    }
+                }
+                const marker = (x,y) => {
+                    ctx.fillStyle='black'; ctx.fillRect(x,y,40,40);
+                    ctx.fillStyle='white'; ctx.fillRect(x+8,y+8,24,24);
+                    ctx.fillStyle='black'; ctx.fillRect(x+12,y+12,16,16);
+                };
+                marker(10,10); marker(size-50,10); marker(10,size-50);
+                return canvas.toDataURL();
+            };
+
+            const handleDownload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 1200; canvas.height = 675;
+                const grads = {modern:['#9333ea','#db2777','#dc2626'],elegant:['#1e293b','#334155','#0f172a'],romantic:['#fb7185','#ec4899','#ef4444'],celebration:['#fbbf24','#f97316','#eab308'],forest:['#15803d','#059669','#0f766e'],ocean:['#3b82f6','#06b6d4','#14b8a6'],sunset:['#f97316','#ec4899','#9333ea'],earth:['#b45309','#a16207','#166534'],lavender:['#a78bfa','#8b5cf6','#6366f1'],spring:['#84cc16','#22c55e','#10b981']};
+                const grad = ctx.createLinearGradient(0,0,1200,675);
+                const colors = grads[formData.theme];
+                grad.addColorStop(0,colors[0]); grad.addColorStop(0.5,colors[1]); grad.addColorStop(1,colors[2]);
+                ctx.fillStyle = grad; ctx.fillRect(0,0,1200,675);
+                ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=2;
+                for(let i=0; i<20; i++){ctx.beginPath(); ctx.arc(Math.random()*1200,Math.random()*675,Math.random()*100+50,0,Math.PI*2); ctx.stroke();}
+                ctx.fillStyle='#5f9ea0'; ctx.beginPath(); ctx.arc(90,90,60,0,Math.PI*2); ctx.fill();
+                ctx.fillStyle='white'; ctx.textAlign='center';
+                ctx.font='600 52px "Cormorant Garamond", serif'; ctx.fillText('BUONO REGALO',600,110);
+                ctx.font='400 36px "Montserrat", sans-serif'; ctx.fillText(`Per: ${formData.recipient}`,600,180);
+                ctx.font='700 44px "Cormorant Garamond", serif'; ctx.fillText(formData.service,600,260);
+                ctx.font='500 32px "Montserrat", sans-serif'; ctx.fillText('presso: Giulia Montanari - Naturopata',600,370);
+                ctx.font='400 28px "Montserrat", sans-serif'; ctx.fillText('Un pensiero per il tuo benessere ❤️',600,445);
+                ctx.font='500 24px "Montserrat", sans-serif'; ctx.fillText(`Da: ${formData.from}`,600,530);
+                ctx.fillStyle='white'; ctx.fillRect(950,420,220,240);
+                const qr = new Image(); qr.src = generateQR(voucherCode);
+                qr.onload = () => {
+                    ctx.drawImage(qr,970,440,180,180);
+                    ctx.fillStyle='black'; ctx.font='bold 20px monospace'; ctx.fillText(voucherCode,1060,645);
+                    const link = document.createElement('a');
+                    link.download=`buono-${formData.recipient.replace(/\s+/g,'-')||'voucher'}.png`;
+                    link.href=canvas.toDataURL('image/png'); document.body.appendChild(link); link.click(); document.body.removeChild(link);
+                };
+            };
+
+            const handleShare = () => {
+                const msg = `🎁 *BUONO REGALO*\n\nPer: ${formData.recipient}\nServizio: ${formData.service}\npresso: Giulia Montanari - Naturopata\n\nUn pensiero per il tuo benessere ❤️\n\nDa: ${formData.from}\n\nCodice: ${voucherCode}`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+            };
+
+            const theme = themes[formData.theme];
+            const Icon = theme.icon;
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-8">
+                            <div className="flex items-center justify-center gap-3 mb-4">
+                                <LogoGM size={80}/>
+                                <h1 className="text-4xl md:text-5xl font-bold text-slate-800">Buoni Regalo Digitali</h1>
+                            </div>
+                            <p className="text-slate-600 text-lg">Giulia Montanari - Naturopata Massaggiatrice</p>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                                <h2 className="text-2xl font-bold text-slate-800 mb-6">Personalizza il tuo buono</h2>
+                                <div className="space-y-6">
+                                    <div><label className="block text-sm font-medium text-slate-700 mb-2">Per chi è il regalo?</label><input type="text" value={formData.recipient} onChange={(e)=>setFormData({...formData,recipient:e.target.value})} className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="Nome del destinatario"/></div>
+                                    <div><label className="block text-sm font-medium text-slate-700 mb-2">Da parte di</label><input type="text" value={formData.from} onChange={(e)=>setFormData({...formData,from:e.target.value})} className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="Il tuo nome"/></div>
+                                    <div><label className="block text-sm font-medium text-slate-700 mb-2">Servizio offerto</label><select value={formData.service} onChange={(e)=>setFormData({...formData,service:e.target.value})} className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"><option value="">Seleziona un servizio...</option><option value="Massaggio rilassante">Massaggio rilassante</option><option value="Naturopatia">Naturopatia</option><option value="Fiori di Bach">Fiori di Bach</option><option value="Iridologia">Iridologia</option><option value="Kinesiologia">Kinesiologia</option><option value="Riflessologia Plantare">Riflessologia Plantare</option></select></div>
+                                    <div><label className="block text-sm font-medium text-slate-700 mb-3">Scegli un tema</label><div className="grid grid-cols-2 gap-3 max-h-96 overflow-y-auto pr-2">{Object.entries(themes).map(([key,t])=><button key={key} onClick={()=>setFormData({...formData,theme:key})} className={`p-3 rounded-lg border-2 ${formData.theme===key?'border-purple-600 bg-purple-50':'border-slate-200 hover:border-slate-300'}`}><div className={`w-full h-12 bg-gradient-to-r ${t.gradient} rounded-lg mb-2`}/><p className="text-xs font-medium text-slate-700">{t.name}</p></button>)}</div></div>
+                                    <button onClick={()=>formData.recipient&&formData.from&&formData.service&&setShowPreview(true)} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700">Genera Buono Regalo</button>
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                                <h2 className="text-2xl font-bold text-slate-800 mb-6">Anteprima</h2>
+                                {showPreview ? (
+                                    <div className="space-y-6">
+                                        <div className={`w-full bg-gradient-to-br ${theme.gradient} rounded-2xl shadow-2xl p-6 relative overflow-hidden`} style={{aspectRatio:'16/9'}}>
+                                            <div className={`absolute inset-0 ${theme.pattern}`}>{[...Array(15)].map((_,i)=><div key={i} className="absolute border-2 border-white rounded-full" style={{width:`${Math.random()*150+100}px`,height:`${Math.random()*150+100}px`,left:`${Math.random()*100}%`,top:`${Math.random()*100}%`,transform:'translate(-50%,-50%)'}}/>)}</div>
+                                            <div className="relative z-10 h-full flex items-start justify-between">
+                                                <div className="pt-2 pl-2"><LogoGM size={80}/></div>
+                                                <div className="flex-1 flex flex-col items-center justify-center text-white text-center px-4">
+                                                    <Icon className="w-8 h-8 mb-2"/>
+                                                    <h3 className="text-lg md:text-2xl font-bold mb-2" style={{fontFamily:'"Cormorant Garamond",serif'}}>BUONO REGALO</h3>
+                                                    <p className="text-xs md:text-base mb-2" style={{fontFamily:'"Montserrat",sans-serif'}}>Per: {formData.recipient}</p>
+                                                    <div className="text-base md:text-2xl font-bold mb-2 px-2" style={{fontFamily:'"Cormorant Garamond",serif'}}>{formData.service}</div>
+                                                    <p className="text-xs md:text-sm mb-2 px-2 font-medium" style={{fontFamily:'"Montserrat",sans-serif'}}>presso: Giulia Montanari - Naturopata</p>
+                                                    <p className="text-xs md:text-sm mb-2 max-w-md px-2" style={{fontFamily:'"Montserrat",sans-serif'}}>Un pensiero per il tuo benessere ❤️</p>
+                                                    <p className="text-xs md:text-sm font-medium" style={{fontFamily:'"Montserrat",sans-serif'}}>Da: {formData.from}</p>
+                                                </div>
+                                                <div className="flex flex-col items-center bg-white p-2 rounded-lg self-end mb-2 mr-2">
+                                                    <img src={generateQR(voucherCode)} alt="QR" className="w-20 h-20 md:w-28 md:h-28"/>
+                                                    <p className="text-sm md:text-base text-slate-800 mt-1 font-mono font-bold">{voucherCode}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <button onClick={handleDownload} className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 rounded-lg font-semibold flex items-center justify-center gap-2"><Download className="w-5 h-5"/>Scarica</button>
+                                            <button onClick={handleShare} className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg font-semibold flex items-center justify-center gap-2"><Share2 className="w-5 h-5"/>WhatsApp</button>
+                                        </div>
+                                        <button onClick={()=>setShowPreview(false)} className="w-full border-2 border-slate-300 text-slate-700 py-3 rounded-lg font-semibold hover:bg-slate-50">Modifica</button>
+                                    </div>
+                                ) : (
+                                    <div className="h-full flex items-center justify-center text-center p-8"><div className="text-slate-400"><Gift className="w-24 h-24 mx-auto mb-4 opacity-50"/><p className="text-lg">Compila il form per vedere l'anteprima</p></div></div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App/>, document.getElementById('root'));
+    </script>
+</body>
+</html>
